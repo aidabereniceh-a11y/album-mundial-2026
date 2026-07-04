@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Álbum Mundial 2026 · Métete a la cancha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pitch:#0B3D2E;
+    --pitch-2:#123F2C;
+    --grass:#3C8B4A;
+    --gold:#D4AF37;
+    --paper:#F1E9D8;
+    --chalk:#F7F5F0;
+    --ink:#16201C;
+    --ink-soft:#4a5a51;
+    --line:#c9bfa2;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--pitch);
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 140px);
+    color:var(--ink);
+    font-family:'Space Grotesk', sans-serif;
+    min-height:100vh;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:28px 18px 70px;}
+
+  /* HEADER */
+  header{
+    text-align:center;
+    color:var(--chalk);
+    padding:18px 0 30px;
+  }
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--gold);
+    color:var(--pitch);
+    font-family:'Anton',sans-serif;
+    letter-spacing:.08em;
+    font-size:12px;
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:14px;
+    text-transform:uppercase;
+  }
+  h1{
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    font-size:clamp(34px,6vw,58px);
+    line-height:1.02;
+    margin:0 0 10px;
+    letter-spacing:.01em;
+    text-transform:uppercase;
+  }
+  h1 span{color:var(--gold);}
+  header p{
+    max-width:520px;margin:0 auto;
+    color:#cfe6d8;
+    font-size:15.5px;
+    line-height:1.5;
+  }
+
+  /* SHEET / ALBUM PAGE */
+  .sheet{
+    background:var(--paper);
+    border-radius:20px;
+    padding:26px 24px 30px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.04);
+    position:relative;
+  }
+  .sheet::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:2px dashed var(--line);
+    border-radius:14px;
+    pointer-events:none;
+    opacity:.6;
+  }
+
+  .step{ margin-bottom:34px; }
+  .step:last-child{margin-bottom:0;}
+  .step-head{
+    display:flex; align-items:baseline; gap:10px;
+    margin-bottom:14px;
+  }
+  .step-num{
+    font-family:'Anton',sans-serif;
+    font-size:28px;
+    color:var(--gold);
+    -webkit-text-stroke:1.5px var(--pitch);
+  }
+  .step-title{
+    font-family:'Anton',sans-serif;
+    font-size:20px;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+    color:var(--pitch);
+  }
+  .step-sub{
+    font-size:13px;color:var(--ink-soft);margin:2px 0 0 38px;
+  }
+
+  /* TABS */
+  .tabs{display:flex;gap:10px;margin:6px 0 22px;}
+  .tab{
+    flex:1;
+    text-align:center;
+    padding:10px 8px;
+    border-radius:10px;
+    border:2px solid var(--pitch);
+    background:transparent;
+    color:var(--pitch);
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .tab.active{background:var(--pitch);color:var(--chalk);}
+
+  /* SCENE GRID - sticker cards */
+  .scene-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:12px;
+  }
+  .scene-card{
+    position:relative;
+    background:var(--chalk);
+    border:2px solid var(--ink);
+    border-radius:10px;
+    padding:14px 10px 12px;
+    cursor:pointer;
+    text-align:center;
+    -webkit-mask-image: radial-gradient(circle 3px at 8px 8px, transparent 98%, #000 100%),
+                         radial-gradient(circle 3px at calc(100% - 8px) 8px, transparent 98%, #000 100%),
+                         radial-gradient(circle 3px at 8px calc(100% - 8px), transparent 98%, #000 100%),
+                         radial-gradient(circle 3px at calc(100% - 8px) calc(100% - 8px), transparent 98%, #000 100%);
+    mask-image: radial-gradient(circle 3px at 8px 8px, transparent 98%, #000 100%),
+                         radial-gradient(circle 3px at calc(100% - 8px) 8px, transparent 98%, #000 100%),
+                         radial-gradient(circle 3px at 8px calc(100% - 8px), transparent 98%, #000 100%),
+                         radial-gradient(circle 3px at calc(100% - 8px) calc(100% - 8px), transparent 98%, #000 100%);
+    transition:.15s transform, .15s box-shadow;
+    box-shadow:0 2px 0 rgba(0,0,0,.15);
+  }
+  .scene-card:hover{transform:translateY(-3px) rotate(-0.5deg);}
+  .scene-card.sel{
+    border-color:var(--gold);
+    background:linear-gradient(160deg,#fffceb,#fbe9b8);
+    box-shadow:0 0 0 3px var(--pitch), 0 8px 14px -6px rgba(0,0,0,.4);
+  }
+  .scene-no{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;color:var(--ink-soft);
+    letter-spacing:.05em;
+  }
+  .scene-emoji{font-size:30px;margin:6px 0 4px;}
+  .scene-title{font-weight:700;font-size:13.5px;line-height:1.2;}
+  .scene-desc{font-size:11px;color:var(--ink-soft);margin-top:4px;line-height:1.3;}
+
+  /* FORM CONTROLS */
+  .grid2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;}
+  @media (max-width:640px){.grid2{grid-template-columns:1fr;}}
+  label.field-label{
+    display:block;font-size:12.5px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.04em;
+    color:var(--pitch);margin-bottom:6px;
+  }
+  .field{margin-bottom:16px;}
+  input[type=text], input[type=number]{
+    width:100%;
+    padding:11px 12px;
+    border:2px solid var(--ink);
+    border-radius:8px;
+    background:var(--chalk);
+    font-family:'Space Grotesk',sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+  }
+  input:focus{outline:3px solid var(--gold);outline-offset:1px;}
+
+  /* combobox */
+  .combo{position:relative;}
+  .combo-list{
+    position:absolute;left:0;right:0;top:calc(100% + 4px);
+    background:var(--chalk);
+    border:2px solid var(--ink);
+    border-radius:8px;
+    max-height:220px;overflow-y:auto;
+    z-index:20;
+    display:none;
+    box-shadow:0 10px 20px rgba(0,0,0,.25);
+  }
+  .combo-list.open{display:block;}
+  .combo-item{
+    padding:9px 12px;font-size:14px;cursor:pointer;
+    display:flex;gap:8px;align-items:center;
+  }
+  .combo-item:hover, .combo-item.hi{background:var(--gold);}
+
+  /* jersey card */
+  .jersey-card{
+    background:var(--pitch);
+    border-radius:12px;
+    padding:16px;
+    color:var(--chalk);
+    display:flex;align-items:center;gap:14px;
+    border:2px solid var(--ink);
+  }
+  .jersey-shape{
+    flex:0 0 auto;
+    width:64px;height:64px;
+    background:var(--grass);
+    border-radius:10px 10px 20px 20px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Anton',sans-serif;
+    font-size:26px;
+    border:2px solid var(--gold);
+    position:relative;
+  }
+  .jersey-flag{position:absolute;top:-8px;right:-8px;font-size:20px;}
+  .jersey-info{font-size:13px;line-height:1.5;color:#dfeee5;}
+  .jersey-info b{color:var(--chalk);font-size:14.5px;}
+
+  .checkline{display:flex;align-items:center;gap:8px;margin:12px 0;}
+  .checkline input{width:18px;height:18px;accent-color:var(--pitch);}
+  .checkline label{font-size:13.5px;font-weight:600;color:var(--pitch);}
+
+  /* GENERATE */
+  .generate-btn{
+    width:100%;
+    padding:16px;
+    border:none;border-radius:10px;
+    background:var(--gold);
+    color:var(--pitch);
+    font-family:'Anton',sans-serif;
+    font-size:19px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+    cursor:pointer;
+    box-shadow:0 6px 0 #9c7d1f;
+    transition:.08s;
+  }
+  .generate-btn:active{transform:translateY(4px);box-shadow:0 2px 0 #9c7d1f;}
+  .generate-btn:disabled{background:#c8c2ab;color:#8a8470;box-shadow:none;cursor:not-allowed;}
+
+  .hint{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:10px;}
+
+  /* OUTPUT */
+  .output{
+    margin-top:22px;
+    background:var(--ink);
+    border-radius:12px;
+    padding:16px;
+    display:none;
+  }
+  .output.show{display:block;}
+  .output-head{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:10px;
+  }
+  .output-head span{
+    color:var(--gold);font-family:'Anton',sans-serif;
+    font-size:13px;text-transform:uppercase;letter-spacing:.05em;
+  }
+  .copy-btn{
+    background:var(--grass);color:#fff;border:none;
+    padding:7px 13px;border-radius:7px;font-size:12.5px;
+    font-weight:700;cursor:pointer;font-family:'Space Grotesk',sans-serif;
+  }
+  .copy-btn.copied{background:var(--gold);color:var(--ink);}
+  textarea.prompt-out{
+    width:100%;min-height:150px;
+    background:#0e1512;color:#e9f3ec;
+    border:1px solid #2c3a33;border-radius:8px;
+    padding:12px;font-family:'JetBrains Mono',monospace;
+    font-size:12.5px;line-height:1.55;
+    resize:vertical;
+  }
+  .output-note{font-size:12px;color:#9fb3a7;margin-top:8px;line-height:1.5;}
+
+  footer{
+    text-align:center;color:#9fc2ab;font-size:12px;margin-top:26px;
+  }
+  footer a{color:var(--gold);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">⚽ Fase de grupos · 48 selecciones</div>
+    <h1>Álbum <span>Mundial 2026</span></h1>
+    <p>Elige una escena, tu selección y tu número — y te damos un prompt listo para pegar en tu generador de imágenes o video con IA.</p>
+  </header>
+
+  <div class="sheet">
+
+    <div class="step">
+      <div class="tabs">
+        <button class="tab active" data-mode="img" id="tabImg">📸 Prompt de imagen</button>
+        <button class="tab" data-mode="video" id="tabVideo">🎬 Prompt de video</button>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head"><span class="step-num">01</span><span class="step-title">Elige tu cromo</span></div>
+      <div class="step-sub" style="margin-bottom:14px;">Cada escena es una estampita del álbum. Toca la que más te guste.</div>
+      <div class="scene-grid" id="sceneGrid"></div>
+    </div>
+
+    <div class="step">
+      <div class="step-head"><span class="step-num">02</span><span class="step-title">Arma tu uniforme</span></div>
+      <div class="grid2" style="margin-top:14px;">
+        <div>
+          <div class="field combo" id="countryCombo">
+            <label class="field-label">Selección</label>
+            <input type="text" id="countryInput" placeholder="Busca tu país… (ej. México)" autocomplete="off">
+            <div class="combo-list" id="countryList"></div>
+          </div>
+          <div class="field">
+            <label class="field-label">Número de camiseta</label>
+            <input type="number" id="numberInput" min="1" max="99" placeholder="Ej. 10">
+          </div>
+          <div class="checkline">
+            <input type="checkbox" id="nameToggle">
+            <label for="nameToggle">Poner mi nombre en la camiseta</label>
+          </div>
+          <div class="field" id="nameField" style="display:none;">
+            <label class="field-label">Tu nombre para la camiseta</label>
+            <input type="text" id="nameInput" placeholder="Ej. BERENICE" maxlength="16">
+          </div>
+          <div class="field" id="commentaryField" style="display:none;">
+            <label class="field-label">Tu nombre en la narración</label>
+            <input type="text" id="commentaryInput" placeholder="Cómo te nombra el comentarista">
+          </div>
+        </div>
+        <div>
+          <label class="field-label">Vista previa</label>
+          <div class="jersey-card">
+            <div class="jersey-shape" id="jerseyShape">
+              <span id="jerseyFlagInside">⚽</span>
+              <span class="jersey-flag" id="jerseyFlagBadge"></span>
+            </div>
+            <div class="jersey-info">
+              <b id="previewCountry">Sin selección</b><br>
+              <span id="previewKit">Elige tu selección para ver los colores</span><br>
+              <span id="previewNumber">Número: —</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-head"><span class="step-num">03</span><span class="step-title">Genera tu prompt</span></div>
+      <button class="generate-btn" id="generateBtn" disabled>Generar prompt ⚽</button>
+      <div class="hint" id="hintText">Elige una escena, una selección y un número para continuar.</div>
+
+      <div class="output" id="output">
+        <div class="output-head">
+          <span id="outputLabel">TU PROMPT</span>
+          <button class="copy-btn" id="copyBtn">📋 Copiar prompt</button>
+        </div>
+        <textarea class="prompt-out" id="promptOut" readonly></textarea>
+        <div class="output-note">Pégalo en ChatGPT, Gemini o tu herramienta de video favorita <b>junto con tu propia selfie</b>.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    Hecho por diversión · Trae tu propia selfie · No afiliado a la FIFA
+  </footer>
+</div>
+
+<script>
+/* ---------- DATA: 48 selecciones del Mundial 2026 ---------- */
+const TEAMS = [
+ ["México","🇲🇽","camiseta verde con detalles blancos y rojos"],
+ ["Estados Unidos","🇺🇸","camiseta blanca con detalles azul marino y rojo"],
+ ["Canadá","🇨🇦","camiseta roja con detalles blancos"],
+ ["Argentina","🇦🇷","camiseta a rayas verticales celestes y blancas"],
+ ["Brasil","🇧🇷","camiseta amarilla con cuello y puños verdes"],
+ ["Colombia","🇨🇴","camiseta amarilla con detalles azules y rojos"],
+ ["Ecuador","🇪🇨","camiseta amarilla con banda azul diagonal"],
+ ["Paraguay","🇵🇾","camiseta a rayas verticales rojas y blancas"],
+ ["Uruguay","🇺🇾","camiseta celeste con cuello negro"],
+ ["Curazao","🇨🇼","camiseta azul con detalles blancos y amarillos"],
+ ["Haití","🇭🇹","camiseta azul con detalles rojos"],
+ ["Panamá","🇵🇦","camiseta roja con detalles azules y blancos"],
+ ["Australia","🇦🇺","camiseta verde y oro"],
+ ["Irak","🇮🇶","camiseta blanca con detalles rojos y verdes"],
+ ["Irán","🇮🇷","camiseta blanca con detalles rojos y verdes"],
+ ["Japón","🇯🇵","camiseta azul con detalles rojos"],
+ ["Jordania","🇯🇴","camiseta blanca con detalles rojos y negros"],
+ ["Corea del Sur","🇰🇷","camiseta roja con detalles negros"],
+ ["Catar","🇶🇦","camiseta granate con detalles blancos"],
+ ["Arabia Saudita","🇸🇦","camiseta verde con detalles blancos"],
+ ["Uzbekistán","🇺🇿","camiseta blanca con detalles celestes"],
+ ["Argelia","🇩🇿","camiseta blanca con banda verde diagonal"],
+ ["Cabo Verde","🇨🇻","camiseta azul con detalles rojos y amarillos"],
+ ["R.D. del Congo","🇨🇩","camiseta celeste con detalles amarillos"],
+ ["Costa de Marfil","🇨🇮","camiseta naranja con detalles blancos y verdes"],
+ ["Egipto","🇪🇬","camiseta roja con detalles blancos y negros"],
+ ["Ghana","🇬🇭","camiseta blanca con negro, rojo y verde"],
+ ["Marruecos","🇲🇦","camiseta roja con cuello verde"],
+ ["Senegal","🇸🇳","camiseta blanca con detalles verdes"],
+ ["Sudáfrica","🇿🇦","camiseta amarilla con detalles verdes"],
+ ["Túnez","🇹🇳","camiseta roja con detalles blancos"],
+ ["Austria","🇦🇹","camiseta blanca con detalles rojos"],
+ ["Bélgica","🇧🇪","camiseta roja con detalles negros"],
+ ["Bosnia y Herzegovina","🇧🇦","camiseta azul con detalles amarillos"],
+ ["Croacia","🇭🇷","camiseta a cuadros rojos y blancos"],
+ ["Chequia","🇨🇿","camiseta roja con detalles blancos y azules"],
+ ["Inglaterra","🏴","camiseta blanca con detalles azul marino"],
+ ["Francia","🇫🇷","camiseta azul marino con detalles blancos y rojos"],
+ ["Alemania","🇩🇪","camiseta blanca con detalles negros"],
+ ["Países Bajos","🇳🇱","camiseta naranja con detalles azules"],
+ ["Noruega","🇳🇴","camiseta roja con detalles blancos y azules"],
+ ["Portugal","🇵🇹","camiseta roja con banda verde"],
+ ["Escocia","🏴","camiseta azul marino con detalles blancos"],
+ ["España","🇪🇸","camiseta roja con detalles amarillos"],
+ ["Suecia","🇸🇪","camiseta amarilla con detalles azules"],
+ ["Suiza","🇨🇭","camiseta roja con cruz blanca"],
+ ["Turquía","🇹🇷","camiseta roja con detalles blancos"],
+ ["Nueva Zelanda","🇳🇿","camiseta blanca con detalles negros"]
+];
+
+/* ---------- DATA: escenas ---------- */
+const SCENES = [
+ {emoji:"🚇",title:"Túnel de vestuarios",desc:"Sales al campo entre el rugido del estadio",
+  img:"Fotografía realista y cinematográfica de la persona de la foto adjunta caminando por el túnel de vestuarios hacia el campo, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}} en la espalda{{NAME_CLAUSE}}. El estadio se ve al fondo, lleno, con luces de reflectores intensas y humo de bengalas. Expresión de concentración y orgullo, luz dramática de túnel, fotografía deportiva profesional, gran angular, alta resolución.",
+  vid:"Video cinematográfico de la persona de la foto adjunta caminando hacia la luz del túnel de vestuarios, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. La cámara sigue de frente en cámara lenta mientras el rugido del estadio crece. Iluminación dramática, ambiente de Copa del Mundo, 8 segundos, estilo transmisión deportiva."},
+ {emoji:"🥅",title:"Gol de media vuelta",desc:"El balón entra y todo el estadio explota",
+  img:"Fotografía de acción congelada de la persona de la foto adjunta, justo después de anotar un gol espectacular, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. Brazos abiertos celebrando, césped verde intenso, red del arco de fondo, compañeros corriendo a festejar, luz de estadio nocturno, fotografía deportiva de alta velocidad, nitidez extrema.",
+  vid:"Video de la celebración de gol de la persona de la foto adjunta, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}. Cámara lenta desde ángulo bajo mientras corre celebrando con los brazos abiertos, confeti cayendo, público rugiendo de fondo, 6 segundos, estética de transmisión de Copa del Mundo."},
+ {emoji:"🏆",title:"Levantando la Copa",desc:"El momento cumbre sobre el podio dorado",
+  img:"Fotografía épica de la persona de la foto adjunta levantando el trofeo de la Copa del Mundo sobre el podio, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. Confeti dorado cayendo, bengalas azules y doradas, compañeros de equipo celebrando alrededor, flashes de cámaras, iluminación de gala nocturna, composición heroica desde ángulo bajo, hiperrealista.",
+  vid:"Video del momento en que la persona de la foto adjunta alza el trofeo de la Copa del Mundo sobre el podio, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}. La cámara gira lentamente alrededor mientras cae confeti dorado y suenan bengalas, 8 segundos, tono triunfal y cinematográfico."},
+ {emoji:"🎯",title:"Penal decisivo",desc:"Silencio total antes del disparo que define todo",
+  img:"Fotografía de tensión máxima de la persona de la foto adjunta preparándose para patear un penal decisivo, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. Balón en el punto penal, portero al fondo listo para atajar, graderías en silencio expectante, luz de estadio dramática, profundidad de campo, fotografía deportiva profesional.",
+  vid:"Video en cámara lenta de la persona de la foto adjunta corriendo hacia el balón para patear un penal decisivo, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}. Silencio tenso del estadio, corte justo antes del disparo, 5 segundos, tensión cinematográfica de Copa del Mundo."},
+ {emoji:"📰",title:"Portada de revista",desc:"Tu retrato en la portada deportiva del mes",
+  img:"Portada de revista deportiva con la persona de la foto adjunta como protagonista, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, brazos cruzados, mirada fija a cámara, pose de superestrella. Fondo con gradiente de color del equipo, tipografía deportiva bold en la parte superior, iluminación de estudio profesional, estilo editorial de alta gama.",
+  vid:"Video corto tipo teaser de revista deportiva con la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, pasando de una pose seria a una sonrisa segura mientras destellos de luz de estudio recorren el encuadre, 5 segundos, estética editorial premium."},
+ {emoji:"🪪",title:"Estampita del álbum",desc:"Tu cromo oficial para el álbum del Mundial",
+  img:"Estampita de álbum de fútbol al estilo clásico de figuritas coleccionables, con retrato de medio cuerpo de la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, sonrisa amistosa, fondo con el color de {{COUNTRY}} en degradado, marco dorado tipo estampa, bandera pequeña en la esquina, acabado brillante de sticker.",
+  vid:null},
+ {emoji:"🎙️",title:"Entrevista post-partido",desc:"El comentarista narra tu jugada de la noche",
+  img:"Fotografía de la persona de la foto adjunta siendo entrevistada al borde de la cancha tras el partido, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, gotas de sudor, sonrisa cansada y satisfecha, micrófono con logo de transmisión frente a su rostro, luces del estadio de fondo desenfocadas, fotografía documental deportiva.",
+  vid:"Video de entrevista post-partido con la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. El comentarista dice con emoción: '¡Ahí está {{NAME_OR_PLAYER}}, la figura de la noche!' mientras el público sigue coreando de fondo, 6 segundos, estilo transmisión en vivo.",
+  needsCommentary:true},
+ {emoji:"🧱",title:"Mural en la fan zone",desc:"Una pared entera pintada con tu imagen",
+  img:"Fotografía de un enorme mural de arte urbano en una fan zone del Mundial, mostrando el rostro de la persona de la foto adjunta pintado en estilo grafiti realista, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}} visibles en la pintura, gente tomándose fotos frente al mural, colores vibrantes, luz de tarde, fotografía urbana documental.",
+  vid:"Video con dron descendiendo frente a un mural gigante de arte urbano con el rostro de la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}, mientras aficionados pasan celebrando frente a la pared, 7 segundos, luz cálida de atardecer, estética documental."}
+];
+
+/* ---------- STATE ---------- */
+let mode = "img";
+let selectedScene = null;
+let selectedTeam = null;
+
+/* ---------- RENDER SCENES ---------- */
+const grid = document.getElementById('sceneGrid');
+SCENES.forEach((s,i)=>{
+  const card = document.createElement('div');
+  card.className = 'scene-card';
+  card.innerHTML = `<div class="scene-no">N.º ${String(i+1).padStart(2,'0')}</div>
+    <div class="scene-emoji">${s.emoji}</div>
+    <div class="scene-title">${s.title}</div>
+    <div class="scene-desc">${s.desc}</div>`;
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('.scene-card').forEach(c=>c.classList.remove('sel'));
+    card.classList.add('sel');
+    selectedScene = s;
+    document.getElementById('commentaryField').style.display = s.needsCommentary ? 'block':'none';
+    if(mode==='video' && s.vid===null){
+      // scene has no video template -> force image mode
+      switchMode('img');
+    }
+    updateReady();
+  });
+  grid.appendChild(card);
+});
+
+/* ---------- TABS ---------- */
+function switchMode(m){
+  mode = m;
+  document.getElementById('tabImg').classList.toggle('active', m==='img');
+  document.getElementById('tabVideo').classList.toggle('active', m==='video');
+  updateReady();
+}
+document.getElementById('tabImg').addEventListener('click',()=>switchMode('img'));
+document.getElementById('tabVideo').addEventListener('click',()=>switchMode('video'));
+
+/* ---------- COUNTRY COMBO ---------- */
+const countryInput = document.getElementById('countryInput');
+const countryList = document.getElementById('countryList');
+
+function renderCountryList(filter=""){
+  const f = filter.trim().toLowerCase();
+  const items = TEAMS.filter(t=>t[0].toLowerCase().includes(f));
+  countryList.innerHTML = items.map(t=>
+    `<div class="combo-item" data-name="${t[0]}">${t[1]} ${t[0]}</div>`
+  ).join('') || '<div class="combo-item" style="cursor:default;">Sin resultados</div>';
+}
+countryInput.addEventListener('focus',()=>{renderCountryList(countryInput.value); countryList.classList.add('open');});
+countryInput.addEventListener('input',()=>{renderCountryList(countryInput.value); countryList.classList.add('open');});
+document.addEventListener('click',(e)=>{
+  if(!document.getElementById('countryCombo').contains(e.target)){
+    countryList.classList.remove('open');
+  }
+});
+countryList.addEventListener('click',(e)=>{
+  const item = e.target.closest('.combo-item');
+  if(!item || !item.dataset.name) return;
+  const team = TEAMS.find(t=>t[0]===item.dataset.name);
+  selectedTeam = team;
+  countryInput.value = team[0];
+  countryList.classList.remove('open');
+  updatePreview();
+  updateReady();
+});
+
+function updatePreview(){
+  if(!selectedTeam){return;}
+  document.getElementById('previewCountry').textContent = selectedTeam[0];
+  document.getElementById('previewKit').textContent = selectedTeam[2];
+  document.getElementById('jerseyFlagBadge').textContent = selectedTeam[1];
+  document.getElementById('jerseyFlagInside').textContent = document.getElementById('numberInput').value || '⚽';
+}
+document.getElementById('numberInput').addEventListener('input',(e)=>{
+  document.getElementById('previewNumber').textContent = 'Número: ' + (e.target.value || '—');
+  document.getElementById('jerseyFlagInside').textContent = e.target.value || '⚽';
+  updateReady();
+});
+
+/* ---------- NAME TOGGLE ---------- */
+document.getElementById('nameToggle').addEventListener('change',(e)=>{
+  document.getElementById('nameField').style.display = e.target.checked ? 'block':'none';
+});
+
+/* ---------- READY CHECK ---------- */
+function updateReady(){
+  const btn = document.getElementById('generateBtn');
+  const hint = document.getElementById('hintText');
+  const num = document.getElementById('numberInput').value;
+  const ready = selectedScene && selectedTeam && num;
+  btn.disabled = !ready;
+  if(!selectedScene){ hint.textContent = 'Elige una escena para continuar.'; }
+  else if(!selectedTeam){ hint.textContent = 'Elige tu selección para continuar.'; }
+  else if(!num){ hint.textContent = 'Escribe tu número de camiseta para continuar.'; }
+  else { hint.textContent = 'Todo listo. ¡Genera tu prompt!'; }
+}
+
+/* ---------- GENERATE ---------- */
+document.getElementById('generateBtn').addEventListener('click',()=>{
+  const template = mode==='img' ? selectedScene.img : selectedScene.vid;
+  const name = document.getElementById('nameInput').value.trim();
+  const nameOn = document.getElementById('nameToggle').checked && name;
+  const commentaryName = document.getElementById('commentaryInput').value.trim();
+  const nameClause = nameOn ? ` con el nombre "${name.toUpperCase()}" bordado arriba del número` : '';
+  const nameOrPlayer = commentaryName || name || 'nuestro jugador';
+
+  let text = template
+    .replaceAll('{{JERSEY}}', selectedTeam[2])
+    .replaceAll('{{COUNTRY}}', selectedTeam[0])
+    .replaceAll('{{NUMBER}}', document.getElementById('numberInput').value)
+    .replaceAll('{{NAME_CLAUSE}}', nameClause)
+    .replaceAll('{{NAME}}', name)
+    .replaceAll('{{NAME_OR_PLAYER}}', nameOrPlayer);
+
+  document.getElementById('promptOut').value = text;
+  document.getElementById('outputLabel').textContent = mode==='img' ? 'TU PROMPT DE IMAGEN' : 'TU PROMPT DE VIDEO';
+  document.getElementById('output').classList.add('show');
+  document.getElementById('output').scrollIntoView({behavior:'smooth', block:'center'});
+});
+
+/* ---------- COPY ---------- */
+document.getElementById('copyBtn').addEventListener('click', async ()=>{
+  const ta = document.getElementById('promptOut');
+  try{
+    await navigator.clipboard.writeText(ta.value);
+  }catch(e){
+    ta.select(); document.execCommand('copy');
+  }
+  const btn = document.getElementById('copyBtn');
+  btn.textContent = '✅ ¡Copiado!';
+  btn.classList.add('copied');
+  setTimeout(()=>{btn.textContent='📋 Copiar prompt'; btn.classList.remove('copied');}, 1800);
+});
+
+renderCountryList();
+updateReady();
+</script>
+</body>
+</html>
