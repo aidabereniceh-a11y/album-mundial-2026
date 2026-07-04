@@ -285,6 +285,44 @@
   }
   .output-note{font-size:12px;color:#9fb3a7;margin-top:8px;line-height:1.5;}
 
+  .example-grid{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    gap:14px;align-items:center;
+  }
+  @media (max-width:640px){
+    .example-grid{grid-template-columns:1fr;}
+    .example-arrow{transform:rotate(90deg);margin:0 auto;}
+  }
+  .example-card{
+    background:var(--chalk);
+    border:2px solid var(--ink);
+    border-radius:12px;
+    padding:12px;
+    text-align:center;
+  }
+  .example-label{
+    font-family:'Anton',sans-serif;
+    font-size:12px;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--pitch);margin-bottom:10px;
+  }
+  .example-img{
+    width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;
+    border-radius:10px;border:2px solid var(--gold);margin:0 auto;display:block;
+  }
+  .example-arrow{
+    font-family:'Anton',sans-serif;font-size:26px;color:var(--gold);
+    text-align:center;
+  }
+  .example-placeholder{
+    max-width:220px;aspect-ratio:1/1;margin:0 auto;
+    border:2px dashed var(--line);border-radius:10px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:8px;padding:14px;background:#fbf7ec;
+  }
+  .example-placeholder span{font-size:30px;}
+  .example-placeholder p{font-size:11.5px;color:var(--ink-soft);line-height:1.4;margin:0;}
+
   footer{
     text-align:center;color:#9fc2ab;font-size:12px;margin-top:26px;
   }
@@ -299,6 +337,25 @@
     <h1>Álbum <span>Mundial 2026</span></h1>
     <p>Elige una escena, tu selección y tu número — y te damos un prompt listo para pegar en tu generador de imágenes o video con IA.</p>
   </header>
+
+  <div class="sheet" style="margin-bottom:22px;">
+    <div class="step-head"><span class="step-num">👀</span><span class="step-title">Así se ve en la vida real</span></div>
+    <div class="step-sub" style="margin-bottom:16px;">Este es un ejemplo real: la foto original y el resultado generado con IA + retoque en Canva.</div>
+    <div class="example-grid">
+      <div class="example-card">
+        <div class="example-label">Antes — tu selfie</div>
+        <img src="ejemplo-antes.png" alt="Foto original antes de la edición" class="example-img">
+      </div>
+      <div class="example-arrow">→</div>
+      <div class="example-card">
+        <div class="example-label">Después — con el prompt + Canva</div>
+        <div class="example-placeholder">
+          <span>🖼️</span>
+          <p>Aquí va tu resultado.<br>Genera la imagen con el prompt de esta página, retócala en Canva y reemplaza este recuadro por tu foto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="sheet">
 
@@ -450,7 +507,7 @@ const SCENES = [
  {emoji:"📰",title:"Portada de revista",desc:"Tu retrato en la portada deportiva del mes",
   img:"Portada de revista deportiva con la persona de la foto adjunta como protagonista, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, brazos cruzados, mirada fija a cámara, pose de superestrella. Fondo con gradiente de color del equipo, tipografía deportiva bold en la parte superior, iluminación de estudio profesional, estilo editorial de alta gama.",
   vid:"Video corto tipo teaser de revista deportiva con la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, pasando de una pose seria a una sonrisa segura mientras destellos de luz de estudio recorren el encuadre, 5 segundos, estética editorial premium."},
- {emoji:"🪪",title:"Estampita del álbum",desc:"Tu cromo oficial para el álbum del Mundial",
+ {emoji:"🎫",title:"Estampita del álbum",desc:"Tu cromo oficial para el álbum del Mundial",
   img:"Estampita de álbum de fútbol al estilo clásico de figuritas coleccionables, con retrato de medio cuerpo de la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, sonrisa amistosa, fondo con el color de {{COUNTRY}} en degradado, marco dorado tipo estampa, bandera pequeña en la esquina, acabado brillante de sticker.",
   vid:null},
  {emoji:"🎙️",title:"Entrevista post-partido",desc:"El comentarista narra tu jugada de la noche",
