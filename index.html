@@ -229,7 +229,14 @@
     border:2px solid var(--gold);
     position:relative;
   }
-  .jersey-flag{position:absolute;top:-8px;right:-8px;font-size:20px;}
+  .jersey-flag{
+    position:absolute;top:-6px;right:-10px;
+    font-size:15px;line-height:1;white-space:nowrap;
+    background:var(--chalk);
+    border:1px solid var(--ink);
+    border-radius:6px;
+    padding:1px 4px;
+  }
   .jersey-info{font-size:13px;line-height:1.5;color:#dfeee5;}
   .jersey-info b{color:var(--chalk);font-size:14.5px;}
 
@@ -328,6 +335,26 @@
   .example-placeholder span{font-size:30px;}
   .example-placeholder p{font-size:11.5px;color:var(--ink-soft);line-height:1.4;margin:0;}
 
+  .video-example-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:14px;
+  }
+  .video-example-card{
+    background:var(--chalk);
+    border:2px solid var(--ink);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .video-example-card video{
+    width:100%;aspect-ratio:9/16;object-fit:cover;display:block;
+    background:#000;
+  }
+  .video-example-label{
+    padding:8px 10px;font-size:12.5px;font-weight:700;color:var(--pitch);
+    text-align:center;
+  }
+
   footer{
     text-align:center;color:#9fc2ab;font-size:12px;margin-top:26px;
   }
@@ -366,6 +393,12 @@
         <button class="tab active" data-mode="img" id="tabImg">📸 Prompt de imagen</button>
         <button class="tab" data-mode="video" id="tabVideo">🎬 Prompt de video</button>
       </div>
+    </div>
+
+    <div class="step" id="videoExamplesStep" style="display:none;">
+      <div class="step-head"><span class="step-num">🎬</span><span class="step-title">Ejemplos en video</span></div>
+      <div class="step-sub" style="margin-bottom:14px;">Así se ven algunas escenas generadas como video corto.</div>
+      <div class="video-example-grid" id="videoExampleGrid"></div>
     </div>
 
     <div class="step">
@@ -498,32 +531,32 @@ const TEAMS = [
 
 /* ---------- DATA: escenas ---------- */
 const SCENES = [
- {emoji:"🚇",title:"Túnel de vestuarios",desc:"Sales al campo entre el rugido del estadio",example:"escena-01-tunel.png",
+ {emoji:"🚇",title:"Túnel de vestuarios",desc:"Sales al campo entre el rugido del estadio",example:"escena-01-tunel.png",exampleVideo:"video-01-tunel.mp4",
   img:"Fotografía realista y cinematográfica de la persona de la foto adjunta caminando por el túnel de vestuarios hacia el campo, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}} en la espalda{{NAME_CLAUSE}}. El estadio se ve al fondo, lleno, con luces de reflectores intensas y humo de bengalas. Expresión de concentración y orgullo, luz dramática de túnel, fotografía deportiva profesional, gran angular, alta resolución.",
   vid:"Video cinematográfico de la persona de la foto adjunta caminando hacia la luz del túnel de vestuarios, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. La cámara sigue de frente en cámara lenta mientras el rugido del estadio crece. Iluminación dramática, ambiente de Copa del Mundo, 8 segundos, estilo transmisión deportiva."},
- {emoji:"🥅",title:"Gol de media vuelta",desc:"El balón entra y todo el estadio explota",example:"escena-02-gol.png",
+ {emoji:"🥅",title:"Gol de media vuelta",desc:"El balón entra y todo el estadio explota",example:"escena-02-gol.png",exampleVideo:"video-02-gol.mp4",
   img:"Fotografía de acción congelada de la persona de la foto adjunta, justo después de anotar un gol espectacular, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. Brazos abiertos celebrando, césped verde intenso, red del arco de fondo, compañeros corriendo a festejar, luz de estadio nocturno, fotografía deportiva de alta velocidad, nitidez extrema.",
   vid:"Video de la celebración de gol de la persona de la foto adjunta, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}. Cámara lenta desde ángulo bajo mientras corre celebrando con los brazos abiertos, confeti cayendo, público rugiendo de fondo, 6 segundos, estética de transmisión de Copa del Mundo."},
- {emoji:"🏆",title:"Levantando la Copa",desc:"El momento cumbre sobre el podio dorado",
+ {emoji:"🏆",title:"Levantando la Copa",desc:"El momento cumbre sobre el podio dorado",example:"escena-03-copa.png",exampleVideo:"video-03-copa.mp4",
   img:"Fotografía épica de la persona de la foto adjunta levantando el trofeo de la Copa del Mundo sobre el podio, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. Confeti dorado cayendo, bengalas azules y doradas, compañeros de equipo celebrando alrededor, flashes de cámaras, iluminación de gala nocturna, composición heroica desde ángulo bajo, hiperrealista.",
   vid:"Video del momento en que la persona de la foto adjunta alza el trofeo de la Copa del Mundo sobre el podio, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}. La cámara gira lentamente alrededor mientras cae confeti dorado y suenan bengalas, 8 segundos, tono triunfal y cinematográfico."},
- {emoji:"🎯",title:"Penal decisivo",desc:"Silencio total antes del disparo que define todo",
+ {emoji:"🎯",title:"Penal decisivo",desc:"Silencio total antes del disparo que define todo",example:"escena-04-penal.png",exampleVideo:"video-04-penal.mp4",
   img:"Fotografía de tensión máxima de la persona de la foto adjunta preparándose para patear un penal decisivo, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. Balón en el punto penal, portero al fondo listo para atajar, graderías en silencio expectante, luz de estadio dramática, profundidad de campo, fotografía deportiva profesional.",
   vid:"Video en cámara lenta de la persona de la foto adjunta corriendo hacia el balón para patear un penal decisivo, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}. Silencio tenso del estadio, corte justo antes del disparo, 5 segundos, tensión cinematográfica de Copa del Mundo."},
- {emoji:"📰",title:"Portada de revista",desc:"Tu retrato en la portada deportiva del mes",
+ {emoji:"📰",title:"Portada de revista",desc:"Tu retrato en la portada deportiva del mes",example:"escena-05-revista.png",exampleVideo:"video-05-revista.mp4",
   img:"Portada de revista deportiva con la persona de la foto adjunta como protagonista, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, brazos cruzados, mirada fija a cámara, pose de superestrella. Fondo con gradiente de color del equipo, tipografía deportiva bold en la parte superior, iluminación de estudio profesional, estilo editorial de alta gama.",
   vid:"Video corto tipo teaser de revista deportiva con la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, pasando de una pose seria a una sonrisa segura mientras destellos de luz de estudio recorren el encuadre, 5 segundos, estética editorial premium."},
- {emoji:"🎫",title:"Estampita del álbum",desc:"Tu cromo oficial para el álbum del Mundial",
+ {emoji:"🎫",title:"Estampita del álbum",desc:"Tu cromo oficial para el álbum del Mundial",example:"escena-06-estampita.png",
   img:"Estampita de álbum de fútbol al estilo clásico de figuritas coleccionables, con retrato de medio cuerpo de la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, sonrisa amistosa, fondo con el color de {{COUNTRY}} en degradado, marco dorado tipo estampa, bandera pequeña en la esquina, acabado brillante de sticker.",
   vid:null},
- {emoji:"🎙️",title:"Entrevista post-partido",desc:"El comentarista narra tu jugada de la noche",
+ {emoji:"🎙️",title:"Entrevista post-partido",desc:"El comentarista narra tu jugada de la noche",example:"escena-07-entrevista.png",exampleVideo:"video-07-entrevista.mp4",
   img:"Fotografía de la persona de la foto adjunta siendo entrevistada al borde de la cancha tras el partido, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}, gotas de sudor, sonrisa cansada y satisfecha, micrófono con logo de transmisión frente a su rostro, luces del estadio de fondo desenfocadas, fotografía documental deportiva.",
   vid:"Video de entrevista post-partido con la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} con el número {{NUMBER}}{{NAME_CLAUSE}}. El comentarista dice con emoción: '¡Ahí está {{NAME_OR_PLAYER}}, la figura de la noche!' mientras el público sigue coreando de fondo, 6 segundos, estilo transmisión en vivo.",
   needsCommentary:true},
- {emoji:"🧱",title:"Mural en la fan zone",desc:"Una pared entera pintada con tu imagen",
+ {emoji:"🧱",title:"Mural en la fan zone",desc:"Una pared entera pintada con tu imagen",example:"escena-08-mural.png",
   img:"Fotografía de un enorme mural de arte urbano en una fan zone del Mundial, mostrando el rostro de la persona de la foto adjunta pintado en estilo grafiti realista, con la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}} visibles en la pintura, gente tomándose fotos frente al mural, colores vibrantes, luz de tarde, fotografía urbana documental.",
   vid:"Video con dron descendiendo frente a un mural gigante de arte urbano con el rostro de la persona de la foto adjunta, vistiendo la {{JERSEY}} de {{COUNTRY}} y el número {{NUMBER}}{{NAME_CLAUSE}}, mientras aficionados pasan celebrando frente a la pared, 7 segundos, luz cálida de atardecer, estética documental."},
- {emoji:"👨‍👩‍👧‍👦",title:"Foto en familia",desc:"Todos juntos celebrando en las gradas",needsGroup:true,
+ {emoji:"👨‍👩‍👧‍👦",title:"Foto en familia",desc:"Todos juntos celebrando en las gradas",example:"escena-09-familia.png",exampleVideo:"video-09-familia.mp4",needsGroup:true,
   img:"Fotografía grupal auténtica y espontánea en las gradas de un estadio del Mundial, mostrando a la persona de la foto adjunta junto a {{GROUP}}, todos vistiendo la {{JERSEY}} de {{COUNTRY}}, sosteniendo banderines y bufandas del equipo, sonriendo y celebrando juntos, gradas llenas de gente de fondo, luz natural de estadio, fotografía documental cálida y realista, alta resolución.",
   vid:"Video de la persona de la foto adjunta celebrando en las gradas junto a {{GROUP}}, todos con la {{JERSEY}} de {{COUNTRY}}, saltando y agitando banderines mientras el estadio ruge de fondo, cámara a la altura de las gradas, 6 segundos, ambiente festivo y auténtico, estilo video casero de alta calidad."}
 ];
@@ -671,6 +704,21 @@ document.getElementById('copyBtn').addEventListener('click', async ()=>{
 
 renderCountryList();
 updateReady();
+
+/* ---------- VIDEO EXAMPLES ---------- */
+function renderVideoExamples(){
+  const withVideo = SCENES.filter(s => s.exampleVideo);
+  if(withVideo.length === 0) return;
+  const grid = document.getElementById('videoExampleGrid');
+  grid.innerHTML = withVideo.map(s => `
+    <div class="video-example-card">
+      <video src="${s.exampleVideo}" autoplay muted loop playsinline></video>
+      <div class="video-example-label">${s.emoji} ${s.title}</div>
+    </div>
+  `).join('');
+  document.getElementById('videoExamplesStep').style.display = 'block';
+}
+renderVideoExamples();
 </script>
 </body>
 </html>
